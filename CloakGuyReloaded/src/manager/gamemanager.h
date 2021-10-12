@@ -1,6 +1,7 @@
 #pragma once
 #include "raylib.h"
 #include "player/player.h"
+#include "obstacle/obstacle.h"
 
 	enum class screenID 
 	{
@@ -14,6 +15,8 @@ class GameManager
 {
 private:
 	screenID SID;
+	Player* player;
+	Obstacle* obs;
 public:
 	GameManager();
 	~GameManager();

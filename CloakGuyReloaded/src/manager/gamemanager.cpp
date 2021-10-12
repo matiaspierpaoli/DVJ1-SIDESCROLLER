@@ -2,6 +2,9 @@
 
 GameManager::GameManager()
 {
+	SID = screenID::menu;
+	player = new Player();
+	obs = new Obstacle();
 }
 
 GameManager::~GameManager()
@@ -100,12 +103,16 @@ void GameManager::gameScreen()
 
 void GameManager::input()
 {
+	player->movement();
 }
 
 void GameManager::update()
 {
+	obs->movement();
+	obs->respawn();
 }
 
 void GameManager::draw()
 {
+	player->draw();
 }
