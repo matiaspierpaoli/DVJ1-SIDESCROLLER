@@ -1,5 +1,6 @@
 #pragma once
 #include "raylib.h"
+#include "player/player.h"
 
 	enum class screenID 
 	{
