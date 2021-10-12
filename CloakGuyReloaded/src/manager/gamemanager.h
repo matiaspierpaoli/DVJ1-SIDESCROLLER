@@ -17,6 +17,8 @@ private:
 	screenID SID;
 	Player* player;
 	Obstacle* obs;
+	const int screenWidth = 800;
+	const int screenHeight = 450;
 public:
 	GameManager();
 	~GameManager();

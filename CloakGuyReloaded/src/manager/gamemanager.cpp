@@ -2,7 +2,11 @@
 
 GameManager::GameManager()
 {
-	SID = screenID::menu;
+	SID = screenID::game;
+
+
+	InitWindow(screenWidth, screenHeight, "Flappy Cloak");
+	SetTargetFPS(60);
 	player = new Player();
 	obs = new Obstacle();
 }
@@ -22,8 +26,6 @@ void GameManager::gameLoop()
 		case screenID::game:
 			gameScreen();
 			break;
-
-
 		}
 	}
 }
@@ -119,5 +121,9 @@ void GameManager::update()
 
 void GameManager::draw()
 {
+	BeginDrawing();
+	ClearBackground(BLACK);
 	player->draw();
+	obs->draw();
+	EndDrawing();
 }

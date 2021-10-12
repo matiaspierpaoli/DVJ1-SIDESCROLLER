@@ -8,11 +8,12 @@ Obstacle::Obstacle()
 	recTop.width = GetScreenWidth() / 10;
 	recTop.height = (GetScreenHeight() / 2) - gap;
 
-
 	recBot.width = GetScreenWidth() / 10;
 	recBot.height = (GetScreenHeight() / 2) + gap;
 	recBot.x = GetScreenWidth() + 100;
 	recBot.y = (GetScreenHeight() / 2) + gap;
+	
+	color = RED;
 }
 
 Obstacle::~Obstacle()
@@ -21,13 +22,13 @@ Obstacle::~Obstacle()
 
 void Obstacle::movement()
 {
-	recTop.x -= GetFrameTime() * 200;
-	recBot.x -= GetFrameTime() * 200;
+	recTop.x -= GetFrameTime() * 300;
+	recBot.x -= GetFrameTime() * 300;
 }
 
 void Obstacle::respawn()
 {
-	if (recTop.x<-50 && recBot.x<-50)
+	if (recTop.x<-100 && recBot.x<-100)
 	{
 		recTop.x = GetScreenWidth() + 100;
 		recBot.x = GetScreenWidth() + 100;

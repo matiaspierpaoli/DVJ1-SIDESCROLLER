@@ -2,8 +2,8 @@
 
 Player::Player()
 {
-	rec.x = GetScreenWidth() / 2;
-	rec.y = GetScreenWidth() / 20;
+	rec.x = GetScreenWidth() / 20;
+	rec.y = GetScreenWidth() / 2;
 	rec.width = 30;
 	rec.height = 30;
 	color = SKYBLUE;
