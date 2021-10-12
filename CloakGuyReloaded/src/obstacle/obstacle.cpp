@@ -22,7 +22,7 @@ Obstacle::~Obstacle()
 void Obstacle::movement()
 {
 	recTop.x -= GetFrameTime() * 200;
-	recBot.x += GetFrameTime() * 200;
+	recBot.x -= GetFrameTime() * 200;
 }
 
 void Obstacle::respawn()
