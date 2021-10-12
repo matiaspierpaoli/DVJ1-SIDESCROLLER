@@ -39,3 +39,13 @@ void Obstacle::draw()
 	DrawRectangleRec(recTop, color);
 	DrawRectangleRec(recBot, color);
 }
+
+Rectangle Obstacle::getRecTop()
+{
+	return recTop;
+}
+
+Rectangle Obstacle::getRecBot()
+{
+	return recBot;
+}

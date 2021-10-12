@@ -7,6 +7,9 @@
     <Filter Include="src\player">
       <UniqueIdentifier>{718140f2-0246-4957-9cdf-2ab1f8b55ee5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\obstacle">
+      <UniqueIdentifier>{f6f29413-21a1-48d0-b2d8-e39af12258d0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\main.cpp">
@@ -15,5 +18,22 @@
     <ClCompile Include="..\src\player\player.cpp">
       <Filter>src\player</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\manager\gamemanager.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\obstacle\obstacle.cpp">
+      <Filter>src\obstacle</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\src\manager\gamemanager.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\player\player.h">
+      <Filter>src\player</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\obstacle\obstacle.h">
+      <Filter>src\obstacle</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

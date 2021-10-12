@@ -110,6 +110,11 @@ void GameManager::update()
 {
 	obs->movement();
 	obs->respawn();
+	if (CheckCollisionRecs(player->getRec(), obs->getRecTop()))
+		SID = screenID::menu;
+
+	if(CheckCollisionRecs(player->getRec(), obs->getRecBot()))
+		SID = screenID::menu;
 }
 
 void GameManager::draw()

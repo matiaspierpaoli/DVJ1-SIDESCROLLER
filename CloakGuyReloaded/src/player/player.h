@@ -9,4 +9,6 @@ public:
 	~Player();
 	void movement();
 	void draw();
+
+	Rectangle getRec();
 };

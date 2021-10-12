@@ -23,3 +23,8 @@ void Player::draw()
 {
 	DrawRectangleRec(rec, color);
 }
+
+Rectangle Player::getRec()
+{
+	return rec;
+}
