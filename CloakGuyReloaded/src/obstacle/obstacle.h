@@ -3,6 +3,7 @@
 
 class Obstacle {
 private:
+	int gap;
 	Rectangle recTop;
 	Rectangle recBot;
 	Color color;
