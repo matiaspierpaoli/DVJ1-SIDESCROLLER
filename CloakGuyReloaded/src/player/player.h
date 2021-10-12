@@ -9,5 +9,4 @@ public:
 	~Player();
 	void movement();
 	void draw();
-
 };
