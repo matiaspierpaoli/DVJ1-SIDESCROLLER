@@ -13,6 +13,7 @@ public:
 	void movement();
 	void respawn();
 	void draw();
+	void reset();
 	Rectangle getRecTop();
 	Rectangle getRecBot();
 };

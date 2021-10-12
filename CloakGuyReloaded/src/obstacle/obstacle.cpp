@@ -41,6 +41,19 @@ void Obstacle::draw()
 	DrawRectangleRec(recBot, color);
 }
 
+void Obstacle::reset()
+{
+	recTop.x = GetScreenWidth() + 100;
+	recTop.y = 0;
+	recTop.width = GetScreenWidth() / 10;
+	recTop.height = (GetScreenHeight() / 2) - gap;
+
+	recBot.width = GetScreenWidth() / 10;
+	recBot.height = (GetScreenHeight() / 2) + gap;
+	recBot.x = GetScreenWidth() + 100;
+	recBot.y = (GetScreenHeight() / 2) + gap;
+}
+
 Rectangle Obstacle::getRecTop()
 {
 	return recTop;

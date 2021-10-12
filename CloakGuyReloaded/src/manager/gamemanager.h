@@ -25,6 +25,7 @@ public:
 	void gameLoop();
 	void menuScreen();
 	void gameScreen();
+	void resetGame();
 
 	void input();
 	void update();

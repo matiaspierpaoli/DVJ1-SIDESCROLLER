@@ -94,6 +94,7 @@ void GameManager::menuScreen()
 
 void GameManager::gameScreen()
 {
+	resetGame();
 	while (!WindowShouldClose()&&SID == screenID::game)
 	{
 		input();
@@ -101,6 +102,11 @@ void GameManager::gameScreen()
 		draw();
 	}
 
+}
+void GameManager::resetGame()
+{
+	player->reset();
+	obs->reset();
 }
 
 void GameManager::input()

@@ -4,8 +4,8 @@ Player::Player()
 {
 	rec.x = GetScreenWidth() / 20;
 	rec.y = GetScreenWidth() / 2;
-	rec.width = 30;
-	rec.height = 30;
+	rec.width = 40;
+	rec.height = 40;
 	color = SKYBLUE;
 }
 
@@ -22,6 +22,12 @@ void Player::movement()
 void Player::draw()
 {
 	DrawRectangleRec(rec, color);
+}
+
+void Player::reset()
+{
+	rec.x = GetScreenWidth() / 20;
+	rec.y = GetScreenWidth() / 2;
 }
 
 Rectangle Player::getRec()
