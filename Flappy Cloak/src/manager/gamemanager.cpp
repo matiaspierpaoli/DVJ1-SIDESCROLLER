@@ -119,6 +119,7 @@ void GameManager::update()
 {
 	obs->movement();
 	obs->respawn();
+	background->update();
 	if (CheckCollisionRecs(player->getRec(), obs->getRecTop()))
 		SID = screenID::menu;
 
