@@ -6,7 +6,7 @@ Player::Player()
 	rec.y = GetScreenWidth() / 2;
 	rec.width = 40;
 	rec.height = 40;
-	color = SKYBLUE;
+	color = GREEN;
 }
 
 Player::~Player()
