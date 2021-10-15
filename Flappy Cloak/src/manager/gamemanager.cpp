@@ -9,6 +9,7 @@ GameManager::GameManager()
 	SetTargetFPS(60);
 	player = new Player();
 	obs = new Obstacle();
+	background = new Parallax();
 }
 
 GameManager::~GameManager()
@@ -129,6 +130,7 @@ void GameManager::draw()
 {
 	BeginDrawing();
 	ClearBackground(BLACK);
+	background->draw();
 	player->draw();
 	obs->draw();
 	EndDrawing();

@@ -2,6 +2,7 @@
 #include "raylib.h"
 #include "player/player.h"
 #include "obstacle/obstacle.h"
+#include "parallax/parallax.h"
 
 	enum class screenID 
 	{
@@ -17,12 +18,10 @@ private:
 	screenID SID;
 	Player* player;
 	Obstacle* obs;
+	Parallax* background;
 	const int screenWidth = 800;
 	const int screenHeight = 450;
-public:
-	GameManager();
-	~GameManager();
-	void gameLoop();
+
 	void menuScreen();
 	void gameScreen();
 	void resetGame();
@@ -30,4 +29,8 @@ public:
 	void input();
 	void update();
 	void draw();
+public:
+	GameManager();
+	~GameManager();
+	void gameLoop();
 };

@@ -90,7 +90,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir)res;$(ProjectDir)lib\raylib\include;$(ProjectDir)src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)lib\raylib\include;$(ProjectDir)src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -147,11 +147,13 @@
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\manager\gamemanager.cpp" />
     <ClCompile Include="src\obstacle\obstacle.cpp" />
+    <ClCompile Include="src\parallax\parallax.cpp" />
     <ClCompile Include="src\player\player.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\manager\gamemanager.h" />
     <ClInclude Include="src\obstacle\obstacle.h" />
+    <ClInclude Include="src\parallax\parallax.h" />
     <ClInclude Include="src\player\player.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
