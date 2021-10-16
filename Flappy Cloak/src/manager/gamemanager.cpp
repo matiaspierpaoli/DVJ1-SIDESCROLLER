@@ -2,9 +2,7 @@
 
 GameManager::GameManager()
 {
-	SID = screenID::game;
-
-
+	SID = screenID::menu;
 	InitWindow(screenWidth, screenHeight, "Flappy Cloak");
 	SetTargetFPS(60);
 	player = new Player();
@@ -14,6 +12,9 @@ GameManager::GameManager()
 
 GameManager::~GameManager()
 {
+	delete player;
+	delete obs;
+	delete background;
 }
 
 void GameManager::gameLoop()

@@ -21,7 +21,10 @@ Parallax::Parallax()
 
 Parallax::~Parallax()
 {
-
+	UnloadTexture(layer1);
+	UnloadTexture(layer2);
+	UnloadTexture(layer3);
+	UnloadTexture(layer4);
 }
 
 void Parallax::draw()

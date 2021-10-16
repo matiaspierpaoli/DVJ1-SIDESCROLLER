@@ -1,7 +1,5 @@
 #pragma once
 #include "raylib.h"
-#include <iostream>
-using namespace std;
 
 class Parallax {
 private:
@@ -21,8 +19,6 @@ private:
 	Vector2 l2d;
 	Vector2 l3d;
 	Vector2 l4d;
-	
-
 public:
 	Parallax();
 	~Parallax();
