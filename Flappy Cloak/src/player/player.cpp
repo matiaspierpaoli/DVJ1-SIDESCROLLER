@@ -18,6 +18,11 @@ void Player::movement()
 {
 	if (IsKeyDown(KEY_W))rec.y -= GetFrameTime() * 420;
 	if (IsKeyDown(KEY_S))rec.y += GetFrameTime() * 420;
+
+	if (IsKeyDown(KEY_SPACE))
+		rec.y -= GetFrameTime() * 300;
+	else
+		rec.y += GetFrameTime() * 170;
 }
 
 void Player::draw()
