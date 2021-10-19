@@ -5,6 +5,7 @@ GameManager::GameManager()
 	SID = screenID::menu;
 	InitWindow(screenWidth, screenHeight, "Flappy Cloak");
 	SetTargetFPS(60);
+	SetExitKey(KEY_ESCAPE);
 	player = new Player();
 	obs = new Obstacle();
 	background = new Parallax();
@@ -12,6 +13,7 @@ GameManager::GameManager()
 
 GameManager::~GameManager()
 {
+	CloseWindow();
 	delete player;
 	delete obs;
 	delete background;
@@ -27,6 +29,9 @@ void GameManager::gameLoop()
 			break;
 		case screenID::game:
 			gameScreen();
+			break;
+		case screenID::exit:
+			CloseWindow();
 			break;
 		}
 	}
@@ -114,6 +119,8 @@ void GameManager::resetGame()
 void GameManager::input()
 {
 	player->movement();
+	if (WindowShouldClose())
+		SID = screenID::exit;
 }
 
 void GameManager::update()

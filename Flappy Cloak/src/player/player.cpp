@@ -3,7 +3,7 @@
 Player::Player()
 {
 	rec.x = GetScreenWidth() / 20;
-	rec.y = GetScreenWidth() / 2;
+	rec.y = GetScreenHeight() / 2;
 	rec.width = 40;
 	rec.height = 40;
 	color = GREEN;
@@ -25,7 +25,7 @@ void Player::movement()
 	else
 	{
 		rec.y += GetFrameTime() * 170;
-		falling = false;
+		falling = false; 
 	}
 }
 
@@ -40,7 +40,7 @@ void Player::draw()
 void Player::reset()
 {
 	rec.x = GetScreenWidth() / 20;
-	rec.y = GetScreenWidth() / 2;
+	rec.y = GetScreenHeight() / 2;
 }
 
 Rectangle Player::getRec()
