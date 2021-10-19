@@ -1,21 +1,20 @@
 #include "player/player.h"
 
-Player::Player()
+Player::Player(Rectangle rec, Color color, Texture2D tex1, Texture2D tex2)
 {
-	rec.x = GetScreenWidth() / 20;
-	rec.y = GetScreenHeight() / 2;
-	rec.width = 40;
-	rec.height = 40;
-	color = GREEN;
-	tex1 = LoadTexture("res/CGf1.png");
-	tex2 = LoadTexture("res/CGf2.png");
+	
+
+	this->rec = rec;
+	this->color = color;
+	this->tex1 = tex1;
+	this->tex2 = tex2;
 }
 
 Player::~Player()
 {
 }
 
-void Player::movement()
+void Player::movementOnePlayer()
 {
 	if (IsKeyDown(KEY_SPACE))
 	{
@@ -26,6 +25,20 @@ void Player::movement()
 	{
 		rec.y += GetFrameTime() * 170;
 		falling = false; 
+	}
+}
+
+void Player::movementTwoPlayers()
+{
+	if (IsKeyDown(KEY_ENTER))
+	{
+		rec.y -= GetFrameTime() * 300;
+		falling = true;
+	}
+	else
+	{
+		rec.y += GetFrameTime() * 170;
+		falling = false;
 	}
 }
 

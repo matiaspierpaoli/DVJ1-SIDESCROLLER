@@ -18,6 +18,7 @@ class GameManager
 private:
 	screenID SID;
 	Player* player;
+	Player* player2;
 	Obstacle* obs;
 	Parallax* background;
 	const int screenWidth = 800;
@@ -25,13 +26,19 @@ private:
 
 	void menuScreen();
 	void gameScreenOnePlayer();
+	void gameScreenTwoPlayers();
 	void resetGame();
 
-	void input();
-	void update();
-	void draw();
+	void inputOnePlayer();
+	void updateOnePlayer();
+	void drawOnePlayer();
+	
+	void inputTwoPlayers();
+	void updateTwoPlayers();
+	void drawTwoPlayers();
+
 public:
 	GameManager();
 	~GameManager();
-	void gameLoop();
+	void gameLoop();	
 };

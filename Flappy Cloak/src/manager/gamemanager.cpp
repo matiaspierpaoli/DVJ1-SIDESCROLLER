@@ -6,7 +6,32 @@ GameManager::GameManager()
 	InitWindow(screenWidth, screenHeight, "Flappy Cloak");
 	SetTargetFPS(60);
 	SetExitKey(KEY_ESCAPE);
-	player = new Player();
+
+	Rectangle rec;
+	Color color;
+	Texture2D tex1;
+	Texture2D tex2;
+
+	rec.x = GetScreenWidth() / 20;
+	rec.y = GetScreenHeight() / 2;
+	rec.width = 40;
+	rec.height = 40;
+	color = GREEN;
+	tex1 = LoadTexture("res/CGf1.png");
+	tex2 = LoadTexture("res/CGf2.png");
+
+	player = new Player(rec, color, tex1, tex2);
+
+	rec.x = GetScreenWidth() / 20;
+	rec.y = GetScreenHeight() / 2;
+	rec.width = 40;
+	rec.height = 40;
+	color = GREEN;
+	tex1 = LoadTexture("res/pixil-frame-0_1.png");
+	tex2 = LoadTexture("res/pixil-frame-0_2.png");
+
+	player2 = new Player(rec, color, tex1, tex2);
+
 	obs = new Obstacle();
 	background = new Parallax();
 }
@@ -15,6 +40,7 @@ GameManager::~GameManager()
 {
 	CloseWindow();
 	delete player;
+	delete player2;
 	delete obs;
 	delete background;
 }
@@ -29,6 +55,9 @@ void GameManager::gameLoop()
 			break;
 		case screenID::onePlayer:
 			gameScreenOnePlayer();
+			break;
+		case screenID::twoPlayers:
+			gameScreenTwoPlayers();
 			break;
 		case screenID::exit:
 			CloseWindow();
@@ -119,26 +148,44 @@ void GameManager::gameScreenOnePlayer()
 	resetGame();
 	while (!WindowShouldClose()&&SID == screenID::onePlayer)
 	{
-		input();
-		update();
-		draw();
+		inputOnePlayer();
+		updateOnePlayer();
+		drawOnePlayer();
+	}
+
+}
+void GameManager::gameScreenTwoPlayers()
+{
+	resetGame();
+	while (!WindowShouldClose() && SID == screenID::twoPlayers)
+	{
+		inputTwoPlayers();
+		updateTwoPlayers();
+		drawTwoPlayers();
 	}
 
 }
 void GameManager::resetGame()
 {
 	player->reset();
+	player2->reset();
 	obs->reset();
 }
 
-void GameManager::input()
+void GameManager::inputOnePlayer()
 {
-	player->movement();
+	player->movementOnePlayer();
 	if (WindowShouldClose())
 		SID = screenID::exit;
 }
-
-void GameManager::update()
+void GameManager::inputTwoPlayers()
+{
+	player->movementOnePlayer();
+	player2->movementTwoPlayers();
+	if (WindowShouldClose())
+		SID = screenID::exit;
+}
+void GameManager::updateOnePlayer()
 {
 	obs->movement();
 	obs->respawn();
@@ -150,12 +197,42 @@ void GameManager::update()
 		SID = screenID::menu;
 }
 
-void GameManager::draw()
+void GameManager::updateTwoPlayers()
+{
+	obs->movement();
+	obs->respawn();
+	background->update();
+	if (CheckCollisionRecs(player->getRec(), obs->getRecTop()))
+		SID = screenID::menu;
+
+	if (CheckCollisionRecs(player->getRec(), obs->getRecBot()))
+		SID = screenID::menu;
+	
+	if (CheckCollisionRecs(player2->getRec(), obs->getRecTop()))
+		SID = screenID::menu;
+
+	if (CheckCollisionRecs(player2->getRec(), obs->getRecBot()))
+		SID = screenID::menu;
+
+}
+
+void GameManager::drawOnePlayer()
 {
 	BeginDrawing();
 	ClearBackground(BLACK);
 	background->draw();
 	player->draw();
+	obs->draw();
+	EndDrawing();
+}
+
+void GameManager::drawTwoPlayers()
+{
+	BeginDrawing();
+	ClearBackground(BLACK);
+	background->draw();
+	player->draw();
+	player2->draw();
 	obs->draw();
 	EndDrawing();
 }
