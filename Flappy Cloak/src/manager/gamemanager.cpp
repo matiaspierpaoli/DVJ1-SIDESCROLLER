@@ -27,8 +27,8 @@ void GameManager::gameLoop()
 		case screenID::menu:
 			menuScreen();
 			break;
-		case screenID::game:
-			gameScreen();
+		case screenID::onePlayer:
+			gameScreenOnePlayer();
 			break;
 		case screenID::exit:
 			CloseWindow();
@@ -39,11 +39,16 @@ void GameManager::gameLoop()
 
 void GameManager::menuScreen()
 {
-	Rectangle playButton;
-	playButton.x = GetScreenWidth() / 100 * 2.5f;
-	playButton.y = GetScreenHeight() / 2;
-	playButton.height = 30;
-	playButton.width = 65;
+	Rectangle onePlayerButton;
+	onePlayerButton.x = GetScreenWidth() / 100 * 2.5f;
+	onePlayerButton.y = GetScreenHeight() / 2;
+	onePlayerButton.height = 30;
+	onePlayerButton.width = 120;
+	Rectangle twoPlayersButton;
+	twoPlayersButton.x = GetScreenWidth() / 100 * 2.5f;
+	twoPlayersButton.y = GetScreenHeight() / 2 + 50;
+	twoPlayersButton.height = 30;
+	twoPlayersButton.width = 150;
 	Rectangle creditsButton;
 	creditsButton.x = GetScreenWidth() / 100 * 2.5f;
 	creditsButton.y = (GetScreenHeight() / 2) + (GetScreenHeight() / 100 * 22.2f);
@@ -61,10 +66,15 @@ void GameManager::menuScreen()
 
 		DrawText(FormatText("Flap"), 20, GetScreenHeight() / 10, 120, SKYBLUE);
 
-		if (CheckCollisionPointRec(GetMousePosition(), playButton))
-			DrawText(FormatText("Play"), 20, GetScreenHeight() / 2, 30, RED);
+		if (CheckCollisionPointRec(GetMousePosition(), onePlayerButton))
+			DrawText(FormatText("1 Player"), 20, GetScreenHeight() / 2, 30, RED);
 		else
-			DrawText(FormatText("Play"), 20, GetScreenHeight() / 2, 30, WHITE);
+			DrawText(FormatText("1 Player"), 20, GetScreenHeight() / 2, 30, WHITE);
+
+		if (CheckCollisionPointRec(GetMousePosition(), twoPlayersButton))
+			DrawText(FormatText("2 Players"), 20, GetScreenHeight() / 2 + 50, 30, RED);
+		else
+			DrawText(FormatText("2 Players"), 20, GetScreenHeight() / 2 + 50, 30, WHITE);
 
 		if (CheckCollisionPointRec(GetMousePosition(), creditsButton))
 			DrawText(FormatText("Credits"), 20, (GetScreenHeight() / 2) + 100, 30, RED);
@@ -76,16 +86,21 @@ void GameManager::menuScreen()
 		else
 			DrawText(FormatText("Close"), 20, (GetScreenHeight() / 2) + 150, 30, WHITE);
 
-		DrawText(FormatText("v 0.2"), GetScreenWidth() - 50, 1, 20, WHITE);
+		DrawText(FormatText("v 0.3"), GetScreenWidth() - 50, 1, 20, WHITE);
 
-		if (CheckCollisionPointRec(GetMousePosition(), playButton) && IsMouseButtonReleased(MOUSE_LEFT_BUTTON)) {
-			SID = screenID::game;
+		if (CheckCollisionPointRec(GetMousePosition(), onePlayerButton) && IsMouseButtonReleased(MOUSE_LEFT_BUTTON)) {
+			SID = screenID::onePlayer;
+		}
+
+		if (CheckCollisionPointRec(GetMousePosition(), twoPlayersButton) && IsMouseButtonReleased(MOUSE_LEFT_BUTTON)) {
+			SID = screenID::twoPlayers;
 		}
 
 		if (CheckCollisionPointRec(GetMousePosition(), creditsButton)) {
 			DrawText(FormatText("Engine: Raylib 3.7"), (GetScreenWidth() / 2 + 40), (GetScreenHeight() / 4) + 20, 30, WHITE);
 			DrawText(FormatText("Created by:"), (GetScreenWidth() / 2 + 40), (GetScreenHeight() / 4) + 100, 30, WHITE);
 			DrawText(FormatText("Matias P. Karplus"), (GetScreenWidth() / 2 + 40), (GetScreenHeight() / 4) + 130, 30, WHITE);
+			DrawText(FormatText("Matias Pierpaoli"), (GetScreenWidth() / 2 + 40), (GetScreenHeight() / 4) + 160, 30, WHITE);
 		}
 
 		if (CheckCollisionPointRec(GetMousePosition(), closeButton) && IsMouseButtonDown(MOUSE_LEFT_BUTTON)) {
@@ -99,10 +114,10 @@ void GameManager::menuScreen()
 	}
 }
 
-void GameManager::gameScreen()
+void GameManager::gameScreenOnePlayer()
 {
 	resetGame();
-	while (!WindowShouldClose()&&SID == screenID::game)
+	while (!WindowShouldClose()&&SID == screenID::onePlayer)
 	{
 		input();
 		update();

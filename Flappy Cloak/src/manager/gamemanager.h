@@ -7,7 +7,8 @@
 	enum class screenID 
 	{
 		menu,
-		game,
+		onePlayer,
+		twoPlayers,
 		exit
 	};
 
@@ -23,7 +24,7 @@ private:
 	const int screenHeight = 450;
 
 	void menuScreen();
-	void gameScreen();
+	void gameScreenOnePlayer();
 	void resetGame();
 
 	void input();
