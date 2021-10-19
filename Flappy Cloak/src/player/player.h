@@ -4,6 +4,7 @@ class Player {
 private:
 	Rectangle rec;
 	Color color;
+	Texture2D tex;
 public:
 	Player();
 	~Player();

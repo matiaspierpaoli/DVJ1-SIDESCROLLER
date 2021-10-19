@@ -7,6 +7,7 @@ Player::Player()
 	rec.width = 40;
 	rec.height = 40;
 	color = GREEN;
+	tex = LoadTexture("res/CloakGuy.png");
 }
 
 Player::~Player()
@@ -21,7 +22,7 @@ void Player::movement()
 
 void Player::draw()
 {
-	DrawRectangleRec(rec, color);
+	DrawTexture(tex, rec.x, rec.y, WHITE);
 }
 
 void Player::reset()

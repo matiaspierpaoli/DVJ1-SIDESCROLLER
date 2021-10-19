@@ -71,7 +71,7 @@ void GameManager::menuScreen()
 		else
 			DrawText(FormatText("Close"), 20, (GetScreenHeight() / 2) + 150, 30, WHITE);
 
-		DrawText(FormatText("v 0.1"), GetScreenWidth() - 50, 1, 20, WHITE);
+		DrawText(FormatText("v 0.2"), GetScreenWidth() - 50, 1, 20, WHITE);
 
 		if (CheckCollisionPointRec(GetMousePosition(), playButton) && IsMouseButtonReleased(MOUSE_LEFT_BUTTON)) {
 			SID = screenID::game;
