@@ -13,6 +13,9 @@ namespace app
 	static char text3[] = "Press Enter to restart";
 	static char text4[] = "Game Finished";
 
+	static int scorePlayer1;
+	static int scorePlayer2;
+
 	static int scaleAux2;
 	static Rectangle rect1;
 	static Color colorRect;
@@ -120,6 +123,10 @@ namespace app
 		player2->reset();
 		obs->reset();
 		gameOver = false;
+		activePlayer1 = true;
+		activePlayer2 = true;
+		scorePlayer1 = 0;
+		scorePlayer2 = 0;
 	}
 
 	void GameManager::updateGame()
@@ -182,8 +189,11 @@ namespace app
 		background->update();
 		
 		if (CheckCollisionRecs(player->getRec(), obs->getRecTop())) gameOver = true;
-					
-		if (CheckCollisionRecs(player->getRec(), obs->getRecBot()))	gameOver = true;		
+		
+		if (CheckCollisionRecs(player->getRec(), obs->getRecBot()))	gameOver = true;
+		
+		if ((obs->getRecBot().x < player->getRec().x && obs->getRecBot().x > 35) && !gameOver)	scorePlayer1++;
+		
 
 		if (gameOver)
 		{
@@ -201,13 +211,17 @@ namespace app
 		background->update();
 		
 		if (CheckCollisionRecs(player->getRec(), obs->getRecTop())) activePlayer1 = false;
-
+		
 		if (CheckCollisionRecs(player->getRec(), obs->getRecBot())) activePlayer1 = false;
+		
+		if ((obs->getRecBot().x < player->getRec().x && obs->getRecBot().x > 35) && !gameOver)	scorePlayer1++;
 
 		if (CheckCollisionRecs(player2->getRec(), obs->getRecTop())) activePlayer2 = false;
-
+		
 		if (CheckCollisionRecs(player2->getRec(), obs->getRecBot())) activePlayer2 = false;
-			
+		
+		if ((obs->getRecBot().x < player2->getRec().x && obs->getRecBot().x > 35) && !gameOver)	scorePlayer2++;
+
 		if (activePlayer1 == false && activePlayer2 == false) gameOver = true;
 
 		if (gameOver)
@@ -221,20 +235,22 @@ namespace app
 	}
 
 	void GameManager::drawOnePlayer()
-	{
-		
+	{		
 		ClearBackground(BLACK);
 		if (!gameOver)
 		{
 			background->draw();
 			player->draw();
 			obs->draw();
+			DrawText(TextFormat("%4i", scorePlayer1), 20, 20, 40, WHITE);
 		}
 		else
 		{			
 			DrawText(text1, text1PositionX, text1PositionY, 40, WHITE);
 			DrawText(text2, text2PositionX, text2PositionY, 40, WHITE);
 			DrawText(text3, text3PositionX, text3PositionY, 36, WHITE);
+
+			DrawText(TextFormat("%4i", scorePlayer1), 20, 20, 40, GRAY);
 
 			if (CheckCollisionPointRec(GetMousePosition(), rect1))
 			{
@@ -246,21 +262,19 @@ namespace app
 					resetGame();
 					initMenu();
 				}
-
 			}
-		}
-		
-		
+		}				
 	}
 
 	void GameManager::drawTwoPlayers()
-	{
-		
+	{		
 		ClearBackground(BLACK);
 		
 		if (!gameOver)
 		{
 			background->draw();
+			DrawText(TextFormat("%4i", scorePlayer1), 20, 20, 40, GRAY);
+			DrawText(TextFormat("%4i", scorePlayer2), GetScreenWidth() - 100, 20, 40, RED);
 
 			if (activePlayer1) player->draw();			
 			
@@ -273,6 +287,9 @@ namespace app
 			DrawText(text4, text4PositionX, text4PositionY, 40, WHITE);
 			DrawText(text2, text2PositionX, text2PositionY, 40, WHITE);
 			DrawText(text3, text3PositionX, text3PositionY, 36, WHITE);
+
+			DrawText(TextFormat("%4i", scorePlayer1), 20, 20, 40, GRAY);
+			DrawText(TextFormat("%4i", scorePlayer2), GetScreenWidth() - 20, 20, 40, RED);
 
 			if (CheckCollisionPointRec(GetMousePosition(), rect1))
 			{
