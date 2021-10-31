@@ -67,7 +67,7 @@ namespace app
 		text4PositionY = static_cast<int>(GetScreenHeight() * 0.50f);
 
 
-		rec.x = GetScreenWidth() / 20;
+		rec.x = GetScreenWidth() / 20 + 60;
 		rec.y = GetScreenHeight() / 2;
 		rec.width = 40;
 		rec.height = 40;
@@ -236,7 +236,7 @@ namespace app
 
 				if (CheckCollisionRecs(player->getRec(), obs->getRecBot())) activePlayer1 = false;
 
-				if ((obs->getRecBot().x < player->getRec().x && obs->getRecBot().x > 35) && !gameOver && activePlayer1)	scorePlayer1++;
+				if ((obs->getRecBot().x < player->getRec().x && obs->getRecBot().x > 95) && !gameOver && activePlayer1)	scorePlayer1++;
 
 				if (CheckCollisionRecs(player2->getRec(), obs->getRecTop())) activePlayer2 = false;
 
@@ -302,16 +302,16 @@ namespace app
 		if (!gameOver)
 		{
 			background->draw();
-			DrawText(TextFormat("%4i", scorePlayer1), 20, 20, 40, GRAY);
-			DrawText(TextFormat("%4i", scorePlayer2), GetScreenWidth() - 100, 20, 40, RED);
+			DrawText(TextFormat("%4i", scorePlayer2), 20, 20, 40, RED);
+			DrawText(TextFormat("%4i", scorePlayer1), GetScreenWidth() - 100, 20, 40, GRAY);
 
 			if (activePlayer1) player->draw();						
 			if (activePlayer2) player2->draw();
 		
 			obs->draw();
 
-			if (scorePlayer1 <= 3 && activePlayer1) DrawText("Jump with Space", 20, GetScreenHeight() - 50, 30, GRAY);
-			if (scorePlayer2 <= 3 && activePlayer2) DrawText("Jump with Enter", GetScreenWidth() - 300, GetScreenHeight() - 50, 30, RED);
+			if (scorePlayer1 <= 3 && activePlayer1) DrawText("Jump with Space", GetScreenWidth() - 300, GetScreenHeight() - 50, 30, GRAY);
+			if (scorePlayer2 <= 3 && activePlayer2) DrawText("Jump with Enter", 20, GetScreenHeight() - 50, 30, RED);
 
 			if (pause) DrawText("GAME PAUSED", screenWidth / 2 - MeasureText("GAME PAUSED", 40) / 2, screenHeight / 2 - 40, 40, GRAY);
 			DrawText("P to pause", GetScreenWidth() / 2 - 100, GetScreenHeight() - 50, 30, BLACK);
