@@ -115,6 +115,8 @@ namespace app
 			updateGame();
 			drawGame();
 		}
+
+		//CloseWindow();
 	}
 
 	void GameManager::resetGame()
@@ -214,13 +216,13 @@ namespace app
 		
 		if (CheckCollisionRecs(player->getRec(), obs->getRecBot())) activePlayer1 = false;
 		
-		if ((obs->getRecBot().x < player->getRec().x && obs->getRecBot().x > 35) && !gameOver)	scorePlayer1++;
+		if ((obs->getRecBot().x < player->getRec().x && obs->getRecBot().x > 35) && !gameOver && activePlayer1)	scorePlayer1++;
 
 		if (CheckCollisionRecs(player2->getRec(), obs->getRecTop())) activePlayer2 = false;
 		
 		if (CheckCollisionRecs(player2->getRec(), obs->getRecBot())) activePlayer2 = false;
 		
-		if ((obs->getRecBot().x < player2->getRec().x && obs->getRecBot().x > 35) && !gameOver)	scorePlayer2++;
+		if ((obs->getRecBot().x < player2->getRec().x && obs->getRecBot().x > 35) && !gameOver && activePlayer2) scorePlayer2++;
 
 		if (activePlayer1 == false && activePlayer2 == false) gameOver = true;
 
@@ -243,6 +245,8 @@ namespace app
 			player->draw();
 			obs->draw();
 			DrawText(TextFormat("%4i", scorePlayer1), 20, 20, 40, WHITE);
+			
+			if (scorePlayer1 <= 3) DrawText("Jump with Space", 20, GetScreenHeight() - 50, 30, GRAY);			
 		}
 		else
 		{			
@@ -281,6 +285,9 @@ namespace app
 			if (activePlayer2) player2->draw();
 		
 			obs->draw();
+
+			if (scorePlayer1 <= 3 && activePlayer1) DrawText("Jump with Space", 20, GetScreenHeight() - 50, 30, GRAY);
+			if (scorePlayer2 <= 3 && activePlayer2) DrawText("Jump with Enter", GetScreenWidth() - 300, GetScreenHeight() - 50, 30, RED);
 		}
 		else
 		{
@@ -301,7 +308,6 @@ namespace app
 					resetGame();
 					initMenu();
 				}
-
 			}
 		}
 	}

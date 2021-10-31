@@ -59,8 +59,8 @@ namespace app
 			}
 
 			if (CheckCollisionPointRec(GetMousePosition(), controllesButton)) {
-				DrawText(FormatText("Player 1 jumps with Space"), (GetScreenWidth() / 2), (GetScreenHeight() / 4) + 20, 28, WHITE);
-				DrawText(FormatText("Player 2 jumps with Enter"), (GetScreenWidth() / 2), (GetScreenHeight() / 4) + 100, 28, WHITE);
+				DrawText(FormatText("Player 1 jumps with Space"), (GetScreenWidth() / 2), (GetScreenHeight() / 4) + 20, 28, GRAY);
+				DrawText(FormatText("Player 2 jumps with Enter"), (GetScreenWidth() / 2), (GetScreenHeight() / 4) + 100, 28, RED);
 			}
 
 			if (CheckCollisionPointRec(GetMousePosition(), closeButton) && IsMouseButtonDown(MOUSE_LEFT_BUTTON)) {
