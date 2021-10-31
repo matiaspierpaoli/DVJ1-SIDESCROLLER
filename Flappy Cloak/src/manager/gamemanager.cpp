@@ -16,7 +16,8 @@ namespace app
 	static int scorePlayer1;
 	static int scorePlayer2;
 
-	static int scaleAux2;
+	static bool pause;
+
 	static Rectangle rect1;
 	static Color colorRect;
 
@@ -42,7 +43,7 @@ namespace app
 
 		colorRect = GRAY;
 
-		scaleAux2 = 1600;
+		pause = false;
 
 		rect1.height = 45.0f;
 		rect1.width = 100.0f;
@@ -174,30 +175,43 @@ namespace app
 
 	void GameManager::inputOnePlayer()
 	{
-		player->movementOnePlayer();		
+		if (!pause)
+		{
+			player->movementOnePlayer();
+		}
 	}
 	
 	void GameManager::inputTwoPlayers()
 	{
-		player->movementOnePlayer();
-		player2->movementTwoPlayers();
+		if (!pause)
+		{
+			player->movementOnePlayer();
+			player2->movementTwoPlayers();
+		}
 		
 	}
 	
 	void GameManager::updateOnePlayer()
 	{
-		obs->movement();
-		obs->respawn();
-		background->update();
-		
-		if (CheckCollisionRecs(player->getRec(), obs->getRecTop())) gameOver = true;
-		
-		if (CheckCollisionRecs(player->getRec(), obs->getRecBot()))	gameOver = true;
-		
-		if ((obs->getRecBot().x < player->getRec().x && obs->getRecBot().x > 35) && !gameOver)	scorePlayer1++;
-		
+		if (!gameOver)
+		{
+			if (IsKeyPressed('P')) pause = !pause;
 
-		if (gameOver)
+			if (!pause)
+			{
+				obs->movement();
+				obs->respawn();
+				background->update();
+
+				if (CheckCollisionRecs(player->getRec(), obs->getRecTop())) gameOver = true;
+
+				if (CheckCollisionRecs(player->getRec(), obs->getRecBot()))	gameOver = true;
+
+				if ((obs->getRecBot().x < player->getRec().x && obs->getRecBot().x > 35) && !gameOver)	scorePlayer1++;
+			}
+			
+		}			
+		else
 		{
 			if (IsKeyPressed(KEY_ENTER)) {
 				SID = screenID::onePlayer;
@@ -208,25 +222,34 @@ namespace app
 
 	void GameManager::updateTwoPlayers()
 	{
-		obs->movement();
-		obs->respawn();
-		background->update();
-		
-		if (CheckCollisionRecs(player->getRec(), obs->getRecTop())) activePlayer1 = false;
-		
-		if (CheckCollisionRecs(player->getRec(), obs->getRecBot())) activePlayer1 = false;
-		
-		if ((obs->getRecBot().x < player->getRec().x && obs->getRecBot().x > 35) && !gameOver && activePlayer1)	scorePlayer1++;
+		if (!gameOver)
+		{
+			if (IsKeyPressed('P')) pause = !pause;
 
-		if (CheckCollisionRecs(player2->getRec(), obs->getRecTop())) activePlayer2 = false;
-		
-		if (CheckCollisionRecs(player2->getRec(), obs->getRecBot())) activePlayer2 = false;
-		
-		if ((obs->getRecBot().x < player2->getRec().x && obs->getRecBot().x > 35) && !gameOver && activePlayer2) scorePlayer2++;
+			if (!pause)
+			{
+				obs->movement();
+				obs->respawn();
+				background->update();
 
-		if (activePlayer1 == false && activePlayer2 == false) gameOver = true;
+				if (CheckCollisionRecs(player->getRec(), obs->getRecTop())) activePlayer1 = false;
 
-		if (gameOver)
+				if (CheckCollisionRecs(player->getRec(), obs->getRecBot())) activePlayer1 = false;
+
+				if ((obs->getRecBot().x < player->getRec().x && obs->getRecBot().x > 35) && !gameOver && activePlayer1)	scorePlayer1++;
+
+				if (CheckCollisionRecs(player2->getRec(), obs->getRecTop())) activePlayer2 = false;
+
+				if (CheckCollisionRecs(player2->getRec(), obs->getRecBot())) activePlayer2 = false;
+
+				if ((obs->getRecBot().x < player2->getRec().x && obs->getRecBot().x > 35) && !gameOver && activePlayer2) scorePlayer2++;
+
+				if (activePlayer1 == false && activePlayer2 == false) gameOver = true;
+
+			}
+			
+		}
+		else
 		{
 			if (IsKeyPressed(KEY_ENTER)) {
 				SID = screenID::twoPlayers;
@@ -244,16 +267,18 @@ namespace app
 			background->draw();
 			player->draw();
 			obs->draw();
-			DrawText(TextFormat("%4i", scorePlayer1), 20, 20, 40, WHITE);
+			DrawText(TextFormat("%4i", scorePlayer1), 20, 20, 40, GRAY);
 			
-			if (scorePlayer1 <= 3) DrawText("Jump with Space", 20, GetScreenHeight() - 50, 30, GRAY);			
+			if (scorePlayer1 < 3) DrawText("Jump with Space", 20, GetScreenHeight() - 50, 30, GRAY);				
+			if (pause) DrawText("GAME PAUSED", screenWidth / 2 - MeasureText("GAME PAUSED", 40) / 2, screenHeight / 2 - 40, 40, GRAY);
+
+			DrawText("P to pause", GetScreenWidth() / 2 - 100, GetScreenHeight() - 50, 30, BLACK);
 		}
 		else
 		{			
 			DrawText(text1, text1PositionX, text1PositionY, 40, WHITE);
 			DrawText(text2, text2PositionX, text2PositionY, 40, WHITE);
 			DrawText(text3, text3PositionX, text3PositionY, 36, WHITE);
-
 			DrawText(TextFormat("%4i", scorePlayer1), 20, 20, 40, GRAY);
 
 			if (CheckCollisionPointRec(GetMousePosition(), rect1))
@@ -280,14 +305,16 @@ namespace app
 			DrawText(TextFormat("%4i", scorePlayer1), 20, 20, 40, GRAY);
 			DrawText(TextFormat("%4i", scorePlayer2), GetScreenWidth() - 100, 20, 40, RED);
 
-			if (activePlayer1) player->draw();			
-			
+			if (activePlayer1) player->draw();						
 			if (activePlayer2) player2->draw();
 		
 			obs->draw();
 
 			if (scorePlayer1 <= 3 && activePlayer1) DrawText("Jump with Space", 20, GetScreenHeight() - 50, 30, GRAY);
 			if (scorePlayer2 <= 3 && activePlayer2) DrawText("Jump with Enter", GetScreenWidth() - 300, GetScreenHeight() - 50, 30, RED);
+
+			if (pause) DrawText("GAME PAUSED", screenWidth / 2 - MeasureText("GAME PAUSED", 40) / 2, screenHeight / 2 - 40, 40, GRAY);
+			DrawText("P to pause", GetScreenWidth() / 2 - 100, GetScreenHeight() - 50, 30, BLACK);
 		}
 		else
 		{
