@@ -1,253 +1,293 @@
 #include "gamemanager.h"
 
-GameManager::GameManager()
+using namespace app;
+using namespace menu;
+
+namespace app
 {
-	SID = screenID::menu;
-	InitWindow(screenWidth, screenHeight, "Flappy Cloak");
-	SetTargetFPS(60);
-	SetExitKey(KEY_ESCAPE);
+	bool exit = false;
+	screenID SID = screenID::menu;
 
-	Rectangle rec;
-	Color color;
-	Texture2D tex1;
-	Texture2D tex2;
+	static char text1[] = "You loose";
+	static char text2[] = "Menu";
+	static char text3[] = "Press Enter to restart";
+	static char text4[] = "Game Finished";
 
-	rec.x = GetScreenWidth() / 20;
-	rec.y = GetScreenHeight() / 2;
-	rec.width = 40;
-	rec.height = 40;
-	color = GREEN;
-	tex1 = LoadTexture("res/CGf1.png");
-	tex2 = LoadTexture("res/CGf2.png");
+	static int scaleAux2;
+	static Rectangle rect1;
+	static Color colorRect;
 
-	player = new Player(rec, color, tex1, tex2);
+	static int text1PositionY;
+	static int text1PositionX;
+	static int text2PositionX;
+	static int text2PositionY;
+	static int text3PositionX;
+	static int text3PositionY;
+	static int text4PositionY;
+	static int text4PositionX;
 
-	rec.x = GetScreenWidth() / 20;
-	rec.y = GetScreenHeight() / 2;
-	rec.width = 40;
-	rec.height = 40;
-	color = GREEN;
-	tex1 = LoadTexture("res/pixil-frame-0_1.png");
-	tex2 = LoadTexture("res/pixil-frame-0_2.png");
+	GameManager::GameManager()
+	{
+		InitWindow(screenWidth, screenHeight, "Flappy Cloak");
+		SetTargetFPS(60);
+		SetExitKey(0);
 
-	player2 = new Player(rec, color, tex1, tex2);
+		Rectangle rec;
+		Color color;
+		Texture2D tex1;
+		Texture2D tex2;		
 
-	obs = new Obstacle();
-	background = new Parallax();
-}
+		colorRect = GRAY;
 
-GameManager::~GameManager()
-{
-	CloseWindow();
-	delete player;
-	delete player2;
-	delete obs;
-	delete background;
-}
+		scaleAux2 = 1600;
 
-void GameManager::gameLoop()
-{
-	while (!WindowShouldClose()) {
-		switch (SID) {
-			break;
+		rect1.height = 45.0f;
+		rect1.width = 100.0f;
+		rect1.x = GetScreenWidth() / 2 - rect1.width / 2;
+		rect1.y = static_cast<float>(GetScreenHeight() * 0.70);
+
+		// You loose
+		text1PositionX = GetScreenWidth() / 2 - MeasureText(text1, 40) / 2;
+		text1PositionY = static_cast<int>(GetScreenHeight() * 0.50f);
+
+		// Menu
+		text2PositionX = GetScreenWidth() / 2 - MeasureText(text2, 40) / 2;
+		text2PositionY = static_cast<int>(rect1.y);
+
+		// Press Enter to return to Menu
+		text3PositionX = static_cast<int>(GetScreenWidth() / 2 - MeasureText(text3, 36) / 2);
+		text3PositionY = static_cast<int>(GetScreenHeight() * 0.90f);
+
+		// Game Finished
+		text4PositionX = static_cast<int>(GetScreenWidth() / 2 - MeasureText(text4, 40) / 2);
+		text4PositionY = static_cast<int>(GetScreenHeight() * 0.50f);
+
+
+		rec.x = GetScreenWidth() / 20;
+		rec.y = GetScreenHeight() / 2;
+		rec.width = 40;
+		rec.height = 40;
+		color = GREEN;
+		tex1 = LoadTexture("res/CGf1.png");
+		tex2 = LoadTexture("res/CGf2.png");
+
+		player = new Player(rec, color, tex1, tex2);
+
+		rec.x = GetScreenWidth() / 20;
+		rec.y = GetScreenHeight() / 2;
+		rec.width = 40;
+		rec.height = 40;
+		color = GREEN;
+		tex1 = LoadTexture("res/pixil-frame-0_1.png");
+		tex2 = LoadTexture("res/pixil-frame-0_2.png");
+
+		player2 = new Player(rec, color, tex1, tex2);
+
+		obs = new Obstacle();
+		background = new Parallax();
+
+		gameOver = false;
+		activePlayer1 = true;
+		activePlayer2 = true;
+	}
+
+	GameManager::~GameManager()
+	{
+		CloseWindow();
+		delete player;
+		delete player2;
+		delete obs;
+		delete background;
+	}
+
+	void GameManager::gameLoop()
+	{
+		srand(static_cast<unsigned int>(time(nullptr)));
+
+		initMenu();
+
+		// Main game loop
+		while (!WindowShouldClose() && !exit)
+		{
+			updateGame();
+			drawGame();
+		}
+	}
+
+	void GameManager::resetGame()
+	{
+		player->reset();
+		player2->reset();
+		obs->reset();
+		gameOver = false;
+	}
+
+	void GameManager::updateGame()
+	{
+		switch (SID)
+		{		
 		case screenID::menu:
-			menuScreen();
-			break;
+			updateMenu();
+			break;		
 		case screenID::onePlayer:
-			gameScreenOnePlayer();
+			inputOnePlayer();
+			updateOnePlayer();
 			break;
 		case screenID::twoPlayers:
-			gameScreenTwoPlayers();
+			inputTwoPlayers();
+			updateTwoPlayers();
 			break;
-		case screenID::exit:
-			CloseWindow();
+		default:
 			break;
 		}
+
 	}
-}
 
-void GameManager::menuScreen()
-{
-	Rectangle onePlayerButton;
-	onePlayerButton.x = GetScreenWidth() / 100 * 2.5f;
-	onePlayerButton.y = GetScreenHeight() / 2 - 30;
-	onePlayerButton.height = 30;
-	onePlayerButton.width = 120;
-	Rectangle twoPlayersButton;
-	twoPlayersButton.x = GetScreenWidth() / 100 * 2.5f;
-	twoPlayersButton.y = GetScreenHeight() / 2 + 20;
-	twoPlayersButton.height = 30;
-	twoPlayersButton.width = 150;
-	Rectangle controllesButton;
-	controllesButton.x = GetScreenWidth() / 100 * 2.5f;
-	controllesButton.y = (GetScreenHeight() / 2) + (GetScreenHeight() / 100 * 16.2f);
-	controllesButton.height = 30;
-	controllesButton.width = 190;
-	Rectangle creditsButton;
-	creditsButton.x = GetScreenWidth() / 100 * 2.5f;
-	creditsButton.y = (GetScreenHeight() / 2) + (GetScreenHeight() / 100 * 28.0f);
-	creditsButton.height = 30;
-	creditsButton.width = 113;
-	Rectangle closeButton;
-	closeButton.x = GetScreenWidth() / 100 * 2.5f;
-	closeButton.y = (GetScreenHeight() / 2) + (GetScreenHeight() / 100 * 40.0f); //37.3
-	closeButton.height = 30;
-	closeButton.width = 81.25f;
-
-	while (!WindowShouldClose() && SID == screenID::menu) {
+	void GameManager::drawGame()
+	{
 		BeginDrawing();
-		ClearBackground(BLACK);
-
-		DrawText(FormatText("Flap"), 20, GetScreenHeight() / 10, 120, SKYBLUE);
-
-		if (CheckCollisionPointRec(GetMousePosition(), onePlayerButton))
-			DrawText(FormatText("1 Player"), 20, GetScreenHeight() / 2 - 30, 30, RED);
-		else
-			DrawText(FormatText("1 Player"), 20, GetScreenHeight() / 2 - 30, 30, WHITE);
-
-		if (CheckCollisionPointRec(GetMousePosition(), twoPlayersButton))
-			DrawText(FormatText("2 Players"), 20, GetScreenHeight() / 2 + 20, 30, RED);
-		else
-			DrawText(FormatText("2 Players"), 20, GetScreenHeight() / 2 + 20, 30, WHITE);
-
-		if (CheckCollisionPointRec(GetMousePosition(), controllesButton))
-			DrawText(FormatText("Key Bindings"), 20, (GetScreenHeight() / 2) + (GetScreenHeight() / 100 * 16.2f), 30, RED);
-		else
-			DrawText(FormatText("Key Bindings"), 20, (GetScreenHeight() / 2) + (GetScreenHeight() / 100 * 16.2f), 30, WHITE);
-
-		if (CheckCollisionPointRec(GetMousePosition(), creditsButton))
-			DrawText(FormatText("Credits"), 20, (GetScreenHeight() / 2) + (GetScreenHeight() / 100 * 28.0f), 30, RED);
-		else
-			DrawText(FormatText("Credits"), 20, (GetScreenHeight() / 2) + (GetScreenHeight() / 100 * 28.0f), 30, WHITE);
-
-		if (CheckCollisionPointRec(GetMousePosition(), closeButton))
-			DrawText(FormatText("Close"), 20, (GetScreenHeight() / 2) + (GetScreenHeight() / 100 * 40.0f), 30, RED);
-		else
-			DrawText(FormatText("Close"), 20, (GetScreenHeight() / 2) + (GetScreenHeight() / 100 * 40.0f), 30, WHITE);
-
-		DrawText(FormatText("v 0.3"), GetScreenWidth() - 50, 1, 20, WHITE);
-
-		if (CheckCollisionPointRec(GetMousePosition(), onePlayerButton) && IsMouseButtonReleased(MOUSE_LEFT_BUTTON)) {
-			SID = screenID::onePlayer;
+		switch (SID)
+		{			
+		case screenID::menu:
+			drawMenu();
+			break;
+		case screenID::onePlayer:
+			drawOnePlayer();
+			break;
+		case screenID::twoPlayers:
+			drawTwoPlayers();
+			break;
+		default:
+			break;
 		}
-
-		if (CheckCollisionPointRec(GetMousePosition(), twoPlayersButton) && IsMouseButtonReleased(MOUSE_LEFT_BUTTON)) {
-			SID = screenID::twoPlayers;
-		}
-
-		if (CheckCollisionPointRec(GetMousePosition(), creditsButton)) {
-			DrawText(FormatText("Engine: Raylib 3.7"), (GetScreenWidth() / 2 + 40), (GetScreenHeight() / 4) + 20, 30, WHITE);
-			DrawText(FormatText("Created by:"), (GetScreenWidth() / 2 + 40), (GetScreenHeight() / 4) + 100, 30, WHITE);
-			DrawText(FormatText("Matias P. Karplus"), (GetScreenWidth() / 2 + 40), (GetScreenHeight() / 4) + 130, 30, WHITE);
-			DrawText(FormatText("Matias Pierpaoli"), (GetScreenWidth() / 2 + 40), (GetScreenHeight() / 4) + 160, 30, WHITE);
-		}
-
-		if (CheckCollisionPointRec(GetMousePosition(), controllesButton)) {
-			DrawText(FormatText("Player 1 jumps with Space"), (GetScreenWidth() / 2), (GetScreenHeight() / 4) + 20, 28, WHITE);
-			DrawText(FormatText("Player 2 jumps with Enter"), (GetScreenWidth() / 2), (GetScreenHeight() / 4) + 100, 28, WHITE);			
-		}
-
-		if (CheckCollisionPointRec(GetMousePosition(), closeButton) && IsMouseButtonDown(MOUSE_LEFT_BUTTON)) {
-			//exit(0);
-		}
-
-		EndDrawing();
-
-		if (WindowShouldClose())
-			SID = screenID::exit;
+		EndDrawing(); 
 	}
-}
 
-void GameManager::gameScreenOnePlayer()
-{
-	resetGame();
-	while (!WindowShouldClose()&&SID == screenID::onePlayer)
+	void GameManager::inputOnePlayer()
 	{
-		inputOnePlayer();
-		updateOnePlayer();
-		drawOnePlayer();
+		player->movementOnePlayer();		
 	}
-
-}
-void GameManager::gameScreenTwoPlayers()
-{
-	resetGame();
-	while (!WindowShouldClose() && SID == screenID::twoPlayers)
-	{
-		inputTwoPlayers();
-		updateTwoPlayers();
-		drawTwoPlayers();
-	}
-
-}
-void GameManager::resetGame()
-{
-	player->reset();
-	player2->reset();
-	obs->reset();
-}
-
-void GameManager::inputOnePlayer()
-{
-	player->movementOnePlayer();
-	if (WindowShouldClose())
-		SID = screenID::exit;
-}
-void GameManager::inputTwoPlayers()
-{
-	player->movementOnePlayer();
-	player2->movementTwoPlayers();
-	if (WindowShouldClose())
-		SID = screenID::exit;
-}
-void GameManager::updateOnePlayer()
-{
-	obs->movement();
-	obs->respawn();
-	background->update();
-	if (CheckCollisionRecs(player->getRec(), obs->getRecTop()))
-		SID = screenID::menu;
-
-	if(CheckCollisionRecs(player->getRec(), obs->getRecBot()))
-		SID = screenID::menu;
-}
-
-void GameManager::updateTwoPlayers()
-{
-	obs->movement();
-	obs->respawn();
-	background->update();
-	if (CheckCollisionRecs(player->getRec(), obs->getRecTop()))
-		SID = screenID::menu;
-
-	if (CheckCollisionRecs(player->getRec(), obs->getRecBot()))
-		SID = screenID::menu;
 	
-	if (CheckCollisionRecs(player2->getRec(), obs->getRecTop()))
-		SID = screenID::menu;
+	void GameManager::inputTwoPlayers()
+	{
+		player->movementOnePlayer();
+		player2->movementTwoPlayers();
+		
+	}
+	
+	void GameManager::updateOnePlayer()
+	{
+		obs->movement();
+		obs->respawn();
+		background->update();
+		
+		if (CheckCollisionRecs(player->getRec(), obs->getRecTop())) gameOver = true;
+					
+		if (CheckCollisionRecs(player->getRec(), obs->getRecBot()))	gameOver = true;		
 
-	if (CheckCollisionRecs(player2->getRec(), obs->getRecBot()))
-		SID = screenID::menu;
+		if (gameOver)
+		{
+			if (IsKeyPressed(KEY_ENTER)) {
+				SID = screenID::onePlayer;
+				resetGame();
+			}
+		}
+	}
 
+	void GameManager::updateTwoPlayers()
+	{
+		obs->movement();
+		obs->respawn();
+		background->update();
+		
+		if (CheckCollisionRecs(player->getRec(), obs->getRecTop())) activePlayer1 = false;
+
+		if (CheckCollisionRecs(player->getRec(), obs->getRecBot())) activePlayer1 = false;
+
+		if (CheckCollisionRecs(player2->getRec(), obs->getRecTop())) activePlayer2 = false;
+
+		if (CheckCollisionRecs(player2->getRec(), obs->getRecBot())) activePlayer2 = false;
+			
+		if (activePlayer1 == false && activePlayer2 == false) gameOver = true;
+
+		if (gameOver)
+		{
+			if (IsKeyPressed(KEY_ENTER)) {
+				SID = screenID::twoPlayers;
+				resetGame();
+			}
+		}
+
+	}
+
+	void GameManager::drawOnePlayer()
+	{
+		
+		ClearBackground(BLACK);
+		if (!gameOver)
+		{
+			background->draw();
+			player->draw();
+			obs->draw();
+		}
+		else
+		{			
+			DrawText(text1, text1PositionX, text1PositionY, 40, WHITE);
+			DrawText(text2, text2PositionX, text2PositionY, 40, WHITE);
+			DrawText(text3, text3PositionX, text3PositionY, 36, WHITE);
+
+			if (CheckCollisionPointRec(GetMousePosition(), rect1))
+			{
+				DrawText(text2, text2PositionX, text2PositionY, 40, RED);
+
+				if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON))
+				{
+					SID = screenID::menu;
+					resetGame();
+					initMenu();
+				}
+
+			}
+		}
+		
+		
+	}
+
+	void GameManager::drawTwoPlayers()
+	{
+		
+		ClearBackground(BLACK);
+		
+		if (!gameOver)
+		{
+			background->draw();
+
+			if (activePlayer1) player->draw();			
+			
+			if (activePlayer2) player2->draw();
+		
+			obs->draw();
+		}
+		else
+		{
+			DrawText(text4, text4PositionX, text4PositionY, 40, WHITE);
+			DrawText(text2, text2PositionX, text2PositionY, 40, WHITE);
+			DrawText(text3, text3PositionX, text3PositionY, 36, WHITE);
+
+			if (CheckCollisionPointRec(GetMousePosition(), rect1))
+			{
+				DrawText(text2, text2PositionX, text2PositionY, 40, RED);
+
+				if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON))
+				{
+					SID = screenID::menu;
+					resetGame();
+					initMenu();
+				}
+
+			}
+		}
+	}
 }
 
-void GameManager::drawOnePlayer()
-{
-	BeginDrawing();
-	ClearBackground(BLACK);
-	background->draw();
-	player->draw();
-	obs->draw();
-	EndDrawing();
-}
 
-void GameManager::drawTwoPlayers()
-{
-	BeginDrawing();
-	ClearBackground(BLACK);
-	background->draw();
-	player->draw();
-	player2->draw();
-	obs->draw();
-	EndDrawing();
-}

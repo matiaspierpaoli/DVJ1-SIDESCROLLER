@@ -160,6 +160,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\menu\menu.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\manager\gamemanager.cpp" />
     <ClCompile Include="src\obstacle\obstacle.cpp" />
@@ -167,6 +168,7 @@
     <ClCompile Include="src\player\player.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\menu\menu.h" />
     <ClInclude Include="src\manager\gamemanager.h" />
     <ClInclude Include="src\obstacle\obstacle.h" />
     <ClInclude Include="src\parallax\parallax.h" />

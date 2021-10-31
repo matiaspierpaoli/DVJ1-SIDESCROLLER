@@ -3,42 +3,55 @@
 #include "player/player.h"
 #include "obstacle/obstacle.h"
 #include "parallax/parallax.h"
+#include "menu/menu.h"
 
-	enum class screenID 
+#include <iostream>
+#include <time.h>
+
+namespace app
+{
+	enum class screenID
 	{
 		menu,
 		onePlayer,
-		twoPlayers,
-		exit
+		twoPlayers,		
 	};
 
+	extern screenID SID;
+	extern bool exit;
 
-class GameManager
-{
-private:
-	screenID SID;
-	Player* player;
-	Player* player2;
-	Obstacle* obs;
-	Parallax* background;
-	const int screenWidth = 800;
-	const int screenHeight = 450;
+	class GameManager
+	{
+	private:
+		
+		Player* player;
+		Player* player2;
+		Obstacle* obs;
+		Parallax* background;
+		const int screenWidth = 800;
+		const int screenHeight = 450;
 
-	void menuScreen();
-	void gameScreenOnePlayer();
-	void gameScreenTwoPlayers();
-	void resetGame();
+		bool gameOver;
+		bool activePlayer1;
+		bool activePlayer2;
 
-	void inputOnePlayer();
-	void updateOnePlayer();
-	void drawOnePlayer();
-	
-	void inputTwoPlayers();
-	void updateTwoPlayers();
-	void drawTwoPlayers();
+		void resetGame();
 
-public:
-	GameManager();
-	~GameManager();
-	void gameLoop();	
-};
+		void drawGame();		
+		void updateGame();
+
+
+		void inputOnePlayer();
+		void updateOnePlayer();
+		void drawOnePlayer();
+
+		void inputTwoPlayers();
+		void updateTwoPlayers();
+		void drawTwoPlayers();
+
+	public:
+		GameManager();
+		~GameManager();
+		void gameLoop();
+	};
+}

@@ -2,8 +2,6 @@
 
 Player::Player(Rectangle rec, Color color, Texture2D tex1, Texture2D tex2)
 {
-	
-
 	this->rec = rec;
 	this->color = color;
 	this->tex1 = tex1;
@@ -60,3 +58,4 @@ Rectangle Player::getRec()
 {
 	return rec;
 }
+

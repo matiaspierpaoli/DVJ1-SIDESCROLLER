@@ -7,6 +7,7 @@ private:
 	Texture2D tex1;
 	Texture2D tex2;
 	bool falling;
+	
 public:
 	Player(Rectangle rec, Color color, Texture2D tex1, Texture2D tex2);
 	~Player();
@@ -16,4 +17,5 @@ public:
 	void reset();
 
 	Rectangle getRec();
+	
 };
