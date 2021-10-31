@@ -117,7 +117,7 @@ namespace app
 			drawGame();
 		}
 
-		//CloseWindow();
+		CloseWindow();
 	}
 
 	void GameManager::resetGame()

@@ -24,6 +24,9 @@ void Player::movementOnePlayer()
 		rec.y += GetFrameTime() * 170;
 		falling = false; 
 	}
+
+	if (rec.y <= 0) rec.y = 0;	
+	else if (rec.y >= GetScreenHeight()) rec.y = static_cast<float>(GetScreenHeight());
 }
 
 void Player::movementTwoPlayers()
@@ -38,6 +41,9 @@ void Player::movementTwoPlayers()
 		rec.y += GetFrameTime() * 170;
 		falling = false;
 	}
+
+	if (rec.y <= 0) rec.y = 0;
+	else if (rec.y >= GetScreenHeight()) rec.y = static_cast<float>(GetScreenHeight());
 }
 
 void Player::draw()
