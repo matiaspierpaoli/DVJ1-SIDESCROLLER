@@ -32,9 +32,10 @@ namespace app
 
 	GameManager::GameManager()
 	{
+		SetExitKey(0);
 		InitWindow(screenWidth, screenHeight, "Flappy Cloak");
 		SetTargetFPS(60);
-		SetExitKey(0);
+		
 
 		Rectangle rec;
 		Color color;
@@ -67,20 +68,20 @@ namespace app
 		text4PositionY = static_cast<int>(GetScreenHeight() * 0.50f);
 
 
-		rec.x = GetScreenWidth() / 20 + 60;
-		rec.y = GetScreenHeight() / 2;
-		rec.width = 40;
-		rec.height = 40;
+		rec.x = static_cast<float>(GetScreenWidth() / 20 + 60);
+		rec.y = static_cast<float>(GetScreenHeight() / 2);
+		rec.width = 40.0f;
+		rec.height = 40.0f;
 		color = GREEN;
 		tex1 = LoadTexture("res/CGf1.png");
 		tex2 = LoadTexture("res/CGf2.png");
 
 		player = new Player(rec, color, tex1, tex2);
 
-		rec.x = GetScreenWidth() / 20;
-		rec.y = GetScreenHeight() / 2;
-		rec.width = 40;
-		rec.height = 40;
+		rec.x = static_cast<float>(GetScreenWidth() / 20);
+		rec.y = static_cast<float>(GetScreenHeight() / 2);
+		rec.width = 40.0f;
+		rec.height = 40.0f;
 		color = GREEN;
 		tex1 = LoadTexture("res/pixil-frame-0_1.png");
 		tex2 = LoadTexture("res/pixil-frame-0_2.png");
@@ -207,7 +208,7 @@ namespace app
 
 				if (CheckCollisionRecs(player->getRec(), obs->getRecBot()))	gameOver = true;
 
-				if ((obs->getRecBot().x < player->getRec().x && obs->getRecBot().x > 35) && !gameOver)	scorePlayer1++;
+				if ((obs->getRecBot().x < player->getRec().x && obs->getRecBot().x > 95) && !gameOver)	scorePlayer1++;
 			}
 			
 		}			

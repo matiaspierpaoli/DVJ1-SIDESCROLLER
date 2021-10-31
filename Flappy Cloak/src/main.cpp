@@ -2,8 +2,9 @@
 
 using namespace app;
 
-void main(){
-GameManager* game = new GameManager();
+int main()
+{
+	GameManager* game = new GameManager();
 	game->gameLoop();
 	delete game;
 }

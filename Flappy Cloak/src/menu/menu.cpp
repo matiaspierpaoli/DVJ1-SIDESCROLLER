@@ -16,19 +16,19 @@ namespace app
 		void initMenu()
 		{
 			onePlayerButton.x = GetScreenWidth() / 100 * 2.5f;
-			onePlayerButton.y = GetScreenHeight() / 2 - 30;
+			onePlayerButton.y = static_cast<float>(GetScreenHeight() / 2 - 30);
 			onePlayerButton.height = 30;
 			onePlayerButton.width = 120;
 
 			twoPlayersButton.x = GetScreenWidth() / 100 * 2.5f;
-			twoPlayersButton.y = GetScreenHeight() / 2 + 20;
-			twoPlayersButton.height = 30;
-			twoPlayersButton.width = 150;
+			twoPlayersButton.y = static_cast<float>(GetScreenHeight() / 2 + 20);
+			twoPlayersButton.height = 30.0f;
+			twoPlayersButton.width = 150.0f;
 
 			controllesButton.x = GetScreenWidth() / 100 * 2.5f;
 			controllesButton.y = (GetScreenHeight() / 2) + (GetScreenHeight() / 100 * 16.2f);
-			controllesButton.height = 30;
-			controllesButton.width = 190;
+			controllesButton.height = 30.0f;
+			controllesButton.width = 190.0f;
 
 			creditsButton.x = GetScreenWidth() / 100 * 2.5f;
 			creditsButton.y = (GetScreenHeight() / 2) + (GetScreenHeight() / 100 * 28.0f);
@@ -36,8 +36,8 @@ namespace app
 			creditsButton.width = 113;
 
 			closeButton.x = GetScreenWidth() / 100 * 2.5f;
-			closeButton.y = (GetScreenHeight() / 2) + (GetScreenHeight() / 100 * 40.0f); //37.3
-			closeButton.height = 30;
+			closeButton.y = (GetScreenHeight() / 2) + (GetScreenHeight() / 100 * 40.0f); 
+			closeButton.height = 30.0f;
 			closeButton.width = 81.25f;
 		}
 
@@ -85,19 +85,19 @@ namespace app
 				DrawText(FormatText("2 Players"), 20, GetScreenHeight() / 2 + 20, 30, WHITE);
 
 			if (CheckCollisionPointRec(GetMousePosition(), controllesButton))
-				DrawText(FormatText("Key Bindings"), 20, (GetScreenHeight() / 2) + (GetScreenHeight() / 100 * 16.2f), 30, RED);
+				DrawText(FormatText("Key Bindings"), 20, (GetScreenHeight() / 2) + static_cast<int>((GetScreenHeight() / 100 * 16.2f)), 30, RED);
 			else
-				DrawText(FormatText("Key Bindings"), 20, (GetScreenHeight() / 2) + (GetScreenHeight() / 100 * 16.2f), 30, WHITE);
+				DrawText(FormatText("Key Bindings"), 20, (GetScreenHeight() / 2) + static_cast<int>((GetScreenHeight() / 100 * 16.2f)), 30, WHITE);
 
 			if (CheckCollisionPointRec(GetMousePosition(), creditsButton))
-				DrawText(FormatText("Credits"), 20, (GetScreenHeight() / 2) + (GetScreenHeight() / 100 * 28.0f), 30, RED);
+				DrawText(FormatText("Credits"), 20, (GetScreenHeight() / 2) + static_cast<int>((GetScreenHeight() / 100 * 28.0f)), 30, RED);
 			else
-				DrawText(FormatText("Credits"), 20, (GetScreenHeight() / 2) + (GetScreenHeight() / 100 * 28.0f), 30, WHITE);
+				DrawText(FormatText("Credits"), 20, (GetScreenHeight() / 2) + static_cast<int>((GetScreenHeight() / 100 * 28.0f)), 30, WHITE);
 
 			if (CheckCollisionPointRec(GetMousePosition(), closeButton))
-				DrawText(FormatText("Close"), 20, (GetScreenHeight() / 2) + (GetScreenHeight() / 100 * 40.0f), 30, RED);
+				DrawText(FormatText("Close"), 20, (GetScreenHeight() / 2) + static_cast<int>((GetScreenHeight() / 100 * 40.0f)), 30, RED);
 			else
-				DrawText(FormatText("Close"), 20, (GetScreenHeight() / 2) + (GetScreenHeight() / 100 * 40.0f), 30, WHITE);
+				DrawText(FormatText("Close"), 20, (GetScreenHeight() / 2) + static_cast<int>((GetScreenHeight() / 100 * 40.0f)), 30, WHITE);
 
 			DrawText(FormatText("v 0.3"), GetScreenWidth() - 50, 1, 20, WHITE);
 

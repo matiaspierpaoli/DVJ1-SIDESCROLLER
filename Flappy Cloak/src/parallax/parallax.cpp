@@ -3,7 +3,7 @@
 
 Parallax::Parallax()
 {
-	converter = GetScreenWidth();
+	converter = static_cast<float>(GetScreenWidth());
 	layer1 = LoadTexture("res/Clouds1.png");
 	layer2 = LoadTexture("res/Mountains2.png");
 	layer3 = LoadTexture("res/Clouds3.png");

@@ -6,6 +6,8 @@ Player::Player(Rectangle rec, Color color, Texture2D tex1, Texture2D tex2)
 	this->color = color;
 	this->tex1 = tex1;
 	this->tex2 = tex2;
+
+	falling = true;
 }
 
 Player::~Player()
@@ -49,15 +51,15 @@ void Player::movementTwoPlayers()
 void Player::draw()
 {
 	if (falling)
-		DrawTexture(tex1, rec.x, rec.y, WHITE);
+		DrawTexture(tex1, static_cast<int>(rec.x), static_cast<int>(rec.y), WHITE);
 	else
-		DrawTexture(tex2, rec.x, rec.y, WHITE);
+		DrawTexture(tex2, static_cast<int>(rec.x), static_cast<int>(rec.y), WHITE);
 }
 
 void Player::reset()
 {
-	rec.x = GetScreenWidth() / 20;
-	rec.y = GetScreenHeight() / 2;
+	rec.x = static_cast<float>(GetScreenWidth() / 20);
+	rec.y = static_cast<float>(GetScreenHeight() / 2);
 }
 
 Rectangle Player::getRec()
