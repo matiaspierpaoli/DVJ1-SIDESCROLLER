@@ -28,7 +28,7 @@ void Obstacle::movement()
 
 void Obstacle::respawn()
 {
-	if (recTop.x<-100 && recBot.x<-100)
+	if (recTop.x < -100 && recBot.x < -100)
 	{
 		recTop.x = static_cast<float>(GetScreenWidth() + 100);
 		recBot.x = static_cast<float>(GetScreenWidth() + 100);

@@ -68,7 +68,7 @@ namespace app
 		text4PositionY = static_cast<int>(GetScreenHeight() * 0.50f);
 
 
-		rec.x = static_cast<float>(GetScreenWidth() / 20 + 60);
+		rec.x = static_cast<float>(GetScreenWidth() / 20);
 		rec.y = static_cast<float>(GetScreenHeight() / 2);
 		rec.width = 40.0f;
 		rec.height = 40.0f;
@@ -211,7 +211,7 @@ namespace app
 				if (CheckCollisionRecs(player->getRec(), obs->getRecBot()))	gameOver = true;
 
 				// Si el obtaculo pasó al player sumar 1 al score
-				if ((obs->getRecBot().x < player->getRec().x && obs->getRecBot().x > 95) && !gameOver)	scorePlayer1++;
+				if ((obs->getRecBot().x < player->getRec().x && obs->getRecBot().x > 35) && gameOver == false)	scorePlayer1++;
 			}
 			
 		}			
@@ -244,7 +244,7 @@ namespace app
 				if (CheckCollisionRecs(player->getRec(), obs->getRecBot())) activePlayer1 = false;
 
 				// Si el obtaculo pasó al player sumar 1 al score de player 1
-				if ((obs->getRecBot().x < player->getRec().x && obs->getRecBot().x > 95) && !gameOver && activePlayer1)	scorePlayer1++; 
+				if ((obs->getRecBot().x < player->getRec().x && obs->getRecBot().x > 35) && gameOver == false && activePlayer1)	scorePlayer1++; 
 
 				// Colisiones player 2
 
@@ -253,7 +253,7 @@ namespace app
 				if (CheckCollisionRecs(player2->getRec(), obs->getRecBot())) activePlayer2 = false;
 
 				// Si el obtaculo pasó al player sumar 1 al score de player 2
-				if ((obs->getRecBot().x < player2->getRec().x && obs->getRecBot().x > 35) && !gameOver && activePlayer2) scorePlayer2++;
+				if ((obs->getRecBot().x < player2->getRec().x && obs->getRecBot().x > 35) && gameOver == false  && activePlayer2) scorePlayer2++;
 
 				// Si ambos colisionaron termina la partida
 				if (activePlayer1 == false && activePlayer2 == false) gameOver = true;
