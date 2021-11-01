@@ -2,9 +2,9 @@
 
 using namespace app;
 
-int main()
+int main() 
 {
-	GameManager* game = new GameManager();
+	GameManager* game = new GameManager(); // Se crea una instancia de jugo que lleva al loop principal
 	game->gameLoop();
-	delete game;
+	delete game; 
 }

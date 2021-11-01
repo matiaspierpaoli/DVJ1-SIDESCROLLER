@@ -16,41 +16,41 @@ Player::~Player()
 
 void Player::movementOnePlayer()
 {
-	if (IsKeyDown(KEY_SPACE))
+	if (IsKeyDown(KEY_SPACE)) // Si se presiona el espacio
 	{
-		rec.y -= GetFrameTime() * 300;
+		rec.y -= GetFrameTime() * 300; // Sube en y
 		falling = true;
 	}
-	else
+	else // SIi no se presiona
 	{
-		rec.y += GetFrameTime() * 170;
+		rec.y += GetFrameTime() * 170; // Baja en y
 		falling = false; 
 	}
 
-	if (rec.y <= 0) rec.y = 0;	
-	else if (rec.y >= GetScreenHeight()) rec.y = static_cast<float>(GetScreenHeight());
+	if (rec.y <= 0) rec.y = 0;	// Si toca el techo no sube más
+	else if (rec.y >= GetScreenHeight()) rec.y = static_cast<float>(GetScreenHeight()); // Si toca el piso no baja más
 }
 
 void Player::movementTwoPlayers()
 {
-	if (IsKeyDown(KEY_ENTER))
+	if (IsKeyDown(KEY_ENTER)) // Si se presiona el espacio
 	{
-		rec.y -= GetFrameTime() * 300;
+		rec.y -= GetFrameTime() * 300; // Sube en y
 		falling = true;
 	}
-	else
+	else // SIi no se presiona
 	{
-		rec.y += GetFrameTime() * 170;
+		rec.y += GetFrameTime() * 170; // Baja en y
 		falling = false;
 	}
 
-	if (rec.y <= 0) rec.y = 0;
-	else if (rec.y >= GetScreenHeight()) rec.y = static_cast<float>(GetScreenHeight());
+	if (rec.y <= 0) rec.y = 0; // Si toca el techo no sube más
+	else if (rec.y >= GetScreenHeight()) rec.y = static_cast<float>(GetScreenHeight()); // Si toca el piso no baja más
 }
 
 void Player::draw()
 {
-	if (falling)
+	if (falling) 
 		DrawTexture(tex1, static_cast<int>(rec.x), static_cast<int>(rec.y), WHITE);
 	else
 		DrawTexture(tex2, static_cast<int>(rec.x), static_cast<int>(rec.y), WHITE);

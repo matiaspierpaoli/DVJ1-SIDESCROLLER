@@ -6,8 +6,7 @@ namespace app
 	{
 		void initMenu();
 		void updateMenu();
-		void drawMenu();
-		void unloadMenu();
+		void drawMenu();		
 	}
 }
 

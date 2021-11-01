@@ -117,8 +117,7 @@ namespace app
 			updateGame();
 			drawGame();
 		}
-
-		CloseWindow();
+		
 	}
 
 	void GameManager::resetGame()
@@ -176,7 +175,7 @@ namespace app
 
 	void GameManager::inputOnePlayer()
 	{
-		if (!pause)
+		if (!pause) // Mientras no esté en pausa
 		{
 			player->movementOnePlayer();
 		}
@@ -184,7 +183,7 @@ namespace app
 	
 	void GameManager::inputTwoPlayers()
 	{
-		if (!pause)
+		if (!pause) // Mientras no esté en pausa
 		{
 			player->movementOnePlayer();
 			player2->movementTwoPlayers();
@@ -194,27 +193,31 @@ namespace app
 	
 	void GameManager::updateOnePlayer()
 	{
-		if (!gameOver)
+		if (!gameOver) // Si no terminó la partida
 		{
-			if (IsKeyPressed('P')) pause = !pause;
+			if (IsKeyPressed('P')) pause = !pause; // Pausa con "P"
 
 			if (!pause)
 			{
+				// Update
 				obs->movement();
 				obs->respawn();
 				background->update();
+
+				// Colisiones player 1
 
 				if (CheckCollisionRecs(player->getRec(), obs->getRecTop())) gameOver = true;
 
 				if (CheckCollisionRecs(player->getRec(), obs->getRecBot()))	gameOver = true;
 
+				// Si el obtaculo pasó al player sumar 1 al score
 				if ((obs->getRecBot().x < player->getRec().x && obs->getRecBot().x > 95) && !gameOver)	scorePlayer1++;
 			}
 			
 		}			
-		else
+		else // Si terminó 
 		{
-			if (IsKeyPressed(KEY_ENTER)) {
+			if (IsKeyPressed(KEY_ENTER)) { // Se reinicia con ENTER
 				SID = screenID::onePlayer;
 				resetGame();
 			}
@@ -223,36 +226,44 @@ namespace app
 
 	void GameManager::updateTwoPlayers()
 	{
-		if (!gameOver)
+		if (!gameOver) // Si no terminó la partida
 		{
-			if (IsKeyPressed('P')) pause = !pause;
+			if (IsKeyPressed('P')) pause = !pause; // Pausa con "P"
 
 			if (!pause)
 			{
+				// Update
 				obs->movement();
 				obs->respawn();
 				background->update();
+
+				// Colisiones player 1
 
 				if (CheckCollisionRecs(player->getRec(), obs->getRecTop())) activePlayer1 = false;
 
 				if (CheckCollisionRecs(player->getRec(), obs->getRecBot())) activePlayer1 = false;
 
-				if ((obs->getRecBot().x < player->getRec().x && obs->getRecBot().x > 95) && !gameOver && activePlayer1)	scorePlayer1++;
+				// Si el obtaculo pasó al player sumar 1 al score de player 1
+				if ((obs->getRecBot().x < player->getRec().x && obs->getRecBot().x > 95) && !gameOver && activePlayer1)	scorePlayer1++; 
+
+				// Colisiones player 2
 
 				if (CheckCollisionRecs(player2->getRec(), obs->getRecTop())) activePlayer2 = false;
 
 				if (CheckCollisionRecs(player2->getRec(), obs->getRecBot())) activePlayer2 = false;
 
+				// Si el obtaculo pasó al player sumar 1 al score de player 2
 				if ((obs->getRecBot().x < player2->getRec().x && obs->getRecBot().x > 35) && !gameOver && activePlayer2) scorePlayer2++;
 
+				// Si ambos colisionaron termina la partida
 				if (activePlayer1 == false && activePlayer2 == false) gameOver = true;
 
 			}
 			
 		}
-		else
+		else // Si terminó 
 		{
-			if (IsKeyPressed(KEY_ENTER)) {
+			if (IsKeyPressed(KEY_ENTER)) { // Se reinicia con ENTER
 				SID = screenID::twoPlayers;
 				resetGame();
 			}
@@ -263,26 +274,26 @@ namespace app
 	void GameManager::drawOnePlayer()
 	{		
 		ClearBackground(BLACK);
-		if (!gameOver)
+		if (!gameOver) // Si no terminó la partida
 		{
-			background->draw();
-			player->draw();
-			obs->draw();
-			DrawText(TextFormat("%4i", scorePlayer1), 20, 20, 40, GRAY);
+			background->draw(); // Fondo
+			player->draw(); // Player
+			obs->draw(); // Obstaculo
+			DrawText(TextFormat("%4i", scorePlayer1), 20, 20, 40, GRAY); // Puntaje
 			
-			if (scorePlayer1 < 3) DrawText("Jump with Space", 20, GetScreenHeight() - 50, 30, GRAY);				
-			if (pause) DrawText("GAME PAUSED", screenWidth / 2 - MeasureText("GAME PAUSED", 40) / 2, screenHeight / 2 - 40, 40, GRAY);
+			if (scorePlayer1 < 3) DrawText("Jump with Space", 20, GetScreenHeight() - 50, 30, GRAY); // Recordatorio para el input hasta pasar tres objetivos				
+			if (pause) DrawText("GAME PAUSED", screenWidth / 2 - MeasureText("GAME PAUSED", 40) / 2, screenHeight / 2 - 40, 40, GRAY); // Pausa
 
-			DrawText("P to pause", GetScreenWidth() / 2 - 100, GetScreenHeight() - 50, 30, BLACK);
+			DrawText("P to pause", GetScreenWidth() / 2 - 100, GetScreenHeight() - 50, 30, BLACK); // // Recordatorio para el input para pausa
 		}
-		else
+		else // Si terminó
 		{			
-			DrawText(text1, text1PositionX, text1PositionY, 40, WHITE);
-			DrawText(text2, text2PositionX, text2PositionY, 40, WHITE);
-			DrawText(text3, text3PositionX, text3PositionY, 36, WHITE);
-			DrawText(TextFormat("%4i", scorePlayer1), 20, 20, 40, GRAY);
+			DrawText(text1, text1PositionX, text1PositionY, 40, WHITE); // You loose
+			DrawText(text2, text2PositionX, text2PositionY, 40, WHITE); // Menu
+			DrawText(text3, text3PositionX, text3PositionY, 36, WHITE); // Press ENTER to restart
+			DrawText(TextFormat("%4i", scorePlayer1), 20, 20, 40, GRAY); // Puntaje final
 
-			if (CheckCollisionPointRec(GetMousePosition(), rect1))
+			if (CheckCollisionPointRec(GetMousePosition(), rect1)) // Volver al menu
 			{
 				DrawText(text2, text2PositionX, text2PositionY, 40, RED);
 
@@ -300,33 +311,34 @@ namespace app
 	{		
 		ClearBackground(BLACK);
 		
-		if (!gameOver)
+		if (!gameOver) // Si no terminó la partida
 		{
-			background->draw();
-			DrawText(TextFormat("%4i", scorePlayer2), 20, 20, 40, RED);
-			DrawText(TextFormat("%4i", scorePlayer1), GetScreenWidth() - 100, 20, 40, GRAY);
+			background->draw(); // Fondo
+			DrawText(TextFormat("%4i", scorePlayer2), 20, 20, 40, RED); // Score de player 2
+			DrawText(TextFormat("%4i", scorePlayer1), GetScreenWidth() - 100, 20, 40, GRAY); // Score de player 1
 
-			if (activePlayer1) player->draw();						
-			if (activePlayer2) player2->draw();
+			if (activePlayer1) player->draw();	// Si no colisionó con un obstáculo, se dibuja el player 1				
+			if (activePlayer2) player2->draw(); // Si no colisionó con un obstáculo, se dibuja el player 2	
 		
-			obs->draw();
+			obs->draw(); // Obstáculo
 
+			// Recordatorio para el input de ambos jugadores
 			if (scorePlayer1 <= 3 && activePlayer1) DrawText("Jump with Space", GetScreenWidth() - 300, GetScreenHeight() - 50, 30, GRAY);
 			if (scorePlayer2 <= 3 && activePlayer2) DrawText("Jump with Enter", 20, GetScreenHeight() - 50, 30, RED);
 
-			if (pause) DrawText("GAME PAUSED", screenWidth / 2 - MeasureText("GAME PAUSED", 40) / 2, screenHeight / 2 - 40, 40, GRAY);
+			if (pause) DrawText("GAME PAUSED", screenWidth / 2 - MeasureText("GAME PAUSED", 40) / 2, screenHeight / 2 - 40, 40, GRAY); // Pausa
 			DrawText("P to pause", GetScreenWidth() / 2 - 100, GetScreenHeight() - 50, 30, BLACK);
 		}
-		else
+		else // Si terminó
 		{
-			DrawText(text4, text4PositionX, text4PositionY, 40, WHITE);
-			DrawText(text2, text2PositionX, text2PositionY, 40, WHITE);
-			DrawText(text3, text3PositionX, text3PositionY, 36, WHITE);
+			DrawText(text4, text4PositionX, text4PositionY, 40, WHITE); // Game finished
+			DrawText(text2, text2PositionX, text2PositionY, 40, WHITE); // Menu
+			DrawText(text3, text3PositionX, text3PositionY, 36, WHITE); // Press ENTER to restart
+			
+			DrawText(TextFormat("%4i", scorePlayer1), 20, 20, 40, GRAY); // Score player 1
+			DrawText(TextFormat("%4i", scorePlayer2), GetScreenWidth() - 20, 20, 40, RED); // Score player 2
 
-			DrawText(TextFormat("%4i", scorePlayer1), 20, 20, 40, GRAY);
-			DrawText(TextFormat("%4i", scorePlayer2), GetScreenWidth() - 20, 20, 40, RED);
-
-			if (CheckCollisionPointRec(GetMousePosition(), rect1))
+			if (CheckCollisionPointRec(GetMousePosition(), rect1)) // Volver al menu
 			{
 				DrawText(text2, text2PositionX, text2PositionY, 40, RED);
 

@@ -102,12 +102,6 @@ namespace app
 			DrawText(FormatText("v 0.3"), GetScreenWidth() - 50, 1, 20, WHITE);
 
 		}
-
-		void unloadMenu()
-		{
-
-		}
-
 	}
 }
 
