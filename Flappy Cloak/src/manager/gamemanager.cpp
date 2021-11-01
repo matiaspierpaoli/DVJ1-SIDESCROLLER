@@ -335,8 +335,8 @@ namespace app
 			DrawText(text2, text2PositionX, text2PositionY, 40, WHITE); // Menu
 			DrawText(text3, text3PositionX, text3PositionY, 36, WHITE); // Press ENTER to restart
 			
-			DrawText(TextFormat("%4i", scorePlayer1), 20, 20, 40, GRAY); // Score player 1
-			DrawText(TextFormat("%4i", scorePlayer2), GetScreenWidth() - 20, 20, 40, RED); // Score player 2
+			DrawText(TextFormat("%4i", scorePlayer1), GetScreenWidth() - 100, 20, 40, GRAY); // Score player 1
+			DrawText(TextFormat("%4i", scorePlayer2), 20, 20, 40, RED); // Score player 2
 
 			if (CheckCollisionPointRec(GetMousePosition(), rect1)) // Volver al menu
 			{
