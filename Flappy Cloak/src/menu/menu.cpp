@@ -99,7 +99,7 @@ namespace app
 			else
 				DrawText(FormatText("Close"), 20, (GetScreenHeight() / 2) + static_cast<int>((GetScreenHeight() / 100 * 40.0f)), 30, WHITE);
 
-			DrawText(FormatText("v 0.3"), GetScreenWidth() - 50, 1, 20, WHITE);
+			DrawText(FormatText("v 1.0"), GetScreenWidth() - 50, 1, 20, WHITE);
 
 		}
 	}
